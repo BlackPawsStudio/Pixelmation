@@ -1,0 +1,50 @@
+@font-face {
+  font-family: pixel;
+  src: url(./assets/font.TTF);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: pixel;
+  transition: all .3s;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #777;
+}
+
+main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+label, button {
+  user-select: none;
+  cursor: pointer;
+}
+
+label:hover, button:hover {
+  transform: scale(105%);
+}
+
+label:active, button:active {
+  transform: scale(95%);
+}
+
+header {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  top: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

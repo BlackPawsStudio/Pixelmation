@@ -1,0 +1,21 @@
+.container {
+  background-color: #777;
+  cursor: pointer;
+  position: relative;
+}
+
+.container > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.container > div:hover {
+  background-color: #ffffff22;
+}
+
+.container > div:active {
+  background-color: none;
+}

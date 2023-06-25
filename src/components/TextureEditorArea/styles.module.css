@@ -1,0 +1,72 @@
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.content {
+  display: grid;
+  border: 1px solid #555;
+  height: fit-content;
+  width: fit-content;
+}
+
+.config {
+  position: absolute;
+  top: 50%;
+  transform: translateX(-100%) translateY(-50%);
+  left: 0%;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 200px;
+  text-align: center;
+}
+
+.color {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border: none;
+}
+
+.slides {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  display: flex;
+  padding: 10px;
+  width: 150px;
+  align-items: center;
+  justify-content: space-between;
+  color: #555;
+}
+
+.slide-button {
+  background: none;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.slide-button-left {
+  border-right: 30px solid #555;
+  border-left: none;
+}
+
+.slide-button-right {
+  border-left: 30px solid #555;
+  border-right: none;
+}
+
+.mini {
+  position: absolute!important;
+  top: 50%;
+  left: 100%;
+  transform: translateX(50%) translateY(-50%);
+}
