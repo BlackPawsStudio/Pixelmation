@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AnimationType, EditorMode, SizeType, TextureType } from '../types';
+import { AnimationType, CoordinatesType, EditorMode, SizeType, TextureType } from '../types';
 
 interface Store {
   size: SizeType;
@@ -10,6 +10,7 @@ interface Store {
   currentSlide: number;
   setSize: (data: SizeType) => void;
   changeType: () => void;
+  setCurrentSlide: (data: number) => void;
   setCurrentColor: (data: string) => void;
   setCurrentTexture: (data: TextureType) => void;
   setCurrentAnimation: (data: AnimationType) => void;
@@ -35,6 +36,7 @@ export const drawingStore = create<Store>()((set) => ({
     set((state) => ({
       type: state.type === 'texture' ? 'file-select' : 'texture',
     })),
+  setCurrentSlide: (data: number) => set(() => ({ currentSlide: data })),
   setCurrentColor: (data: string) => set(() => ({ currentColor: data })),
   setCurrentTexture: (data: TextureType) => set(() => ({ currentTexture: data })),
   setCurrentAnimation: (data: AnimationType) => set(() => ({ currentAnimation: data })),

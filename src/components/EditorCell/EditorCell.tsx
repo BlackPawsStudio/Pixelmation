@@ -9,6 +9,7 @@ interface EditorCellProps {
   copyColor?: (x: number, y: number) => void;
   x: number;
   y: number;
+  isSmall?: boolean;
 }
 
 export const EditorCell = ({
@@ -18,10 +19,11 @@ export const EditorCell = ({
   copyColor,
   x,
   y,
+  isSmall,
 }: EditorCellProps) => {
   const size = drawingStore((state) => state.size);
 
-  const sizeParam = 75 / size.width > 75 / size.height ? 75 / size.height : 75 / size.width;
+  const sizeParam = isSmall ? 2 :  75 / size.width > 75 / size.height ? 75 / size.height : 75 / size.width;
   return (
     <div
       className={styles['container']}

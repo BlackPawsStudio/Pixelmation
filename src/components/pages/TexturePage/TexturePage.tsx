@@ -1,4 +1,4 @@
-import { EditorArea } from '~/components/TextureEditorArea';
+import { TextureEditorArea } from '~/components/TextureEditorArea';
 import styles from '~/components/TextureEditorArea/styles.module.css';
 import { useRef, useEffect } from 'react';
 import { drawingStore } from '~/store/store';
@@ -102,7 +102,7 @@ export const TexturePage = () => {
         <label onClick={() => setCurrentColor('#00000000')}>Set transparent color</label>
         <button onClick={exportFile}>Save and export</button>
       </div>
-      <EditorArea />
+      <TextureEditorArea />
     </div>
   );
 };

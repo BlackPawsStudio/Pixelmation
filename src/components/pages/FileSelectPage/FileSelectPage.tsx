@@ -1,10 +1,15 @@
 import styles from './styles.module.css';
 import { useRef } from 'react';
 import { drawingStore } from '~/store/store';
+import { useNavigate } from 'react-router-dom';
+import { CoordinatesType } from '~/types';
 
 export const FileSelectPage = () => {
   const setSize = drawingStore((state) => state.setSize);
   const setCurrentTexture = drawingStore((state) => state.setCurrentTexture);
+  const setCurrentAnimation = drawingStore((state) => state.setCurrentAnimation);
+
+  const navigate = useNavigate();
 
   const textureInputFile = useRef<HTMLInputElement>(null);
   const animationInputFile = useRef<HTMLInputElement>(null);
@@ -35,6 +40,15 @@ export const FileSelectPage = () => {
                 height: fileData.cells.length,
               });
               setCurrentTexture(fileData);
+              const blankAnimation: (CoordinatesType | null)[][][] = new Array(1)
+                .fill(null)
+                .map(() =>
+                  new Array(fileData.cells.length)
+                    .fill(null)
+                    .map(() => new Array(fileData.cells[0].length).fill(null))
+                );
+              setCurrentAnimation({ name: '', slides: blankAnimation });
+              navigate('/animation');
             }
           };
           reader.readAsText(file);
@@ -56,6 +70,7 @@ export const FileSelectPage = () => {
           reader.onload = (e) => {
             if (e.target && e.target.result) {
               const fileData = JSON.parse(e.target.result as string);
+              navigate('/animation');
             }
           };
           reader.readAsText(file);
