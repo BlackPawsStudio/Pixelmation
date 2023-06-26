@@ -1,19 +1,23 @@
-import styles from '~/components/TextureEditorArea/styles.module.css';
+import styles from './styles.module.css';
 import { drawingStore } from '~/store/store';
+import { CoordinatesType } from '~/types';
 import { EditorCell } from '../EditorCell';
 
-export const TexturePreview = () => {
+interface TexturePreviewProps {
+  setCurrentCell: ({ x, y }: CoordinatesType) => void;
+}
+
+export const TexturePreview = ({ setCurrentCell }: TexturePreviewProps) => {
   const size = drawingStore((state) => state.size);
   const currentTexture = drawingStore((state) => state.currentTexture);
-  const setCurrentColor = drawingStore((state) => state.setCurrentColor);
 
   const copyColor = (x: number, y: number) => {
-    setCurrentColor(currentTexture.cells[x][y]);
+    setCurrentCell({ x: x, y: y });
   };
 
   return (
     <div
-      className={`${styles['content']} ${styles['mini']}`}
+      className={styles['content']}
       style={{
         gridTemplateColumns: `repeat(${size.width}, auto)`,
         gridTemplateRows: `repeat(${size.height}, auto)`,
@@ -22,14 +26,7 @@ export const TexturePreview = () => {
       {currentTexture.cells.map((row, rowId) => {
         return row.map((el, id) => {
           return (
-            <EditorCell
-              key={id}
-              x={rowId}
-              y={id}
-              color={el}
-              isGridVisible
-              copyColor={copyColor}
-            />
+            <EditorCell isSmall key={id} x={rowId} y={id} color={el} isGridVisible copyColor={copyColor} />
           );
         });
       })}

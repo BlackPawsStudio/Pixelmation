@@ -33,10 +33,3 @@
   height: 100px;
   border: none;
 }
-
-.mini {
-  position: absolute!important;
-  top: 50%;
-  left: 100%;
-  transform: translateX(50%) translateY(-50%);
-}

@@ -7,10 +7,15 @@ export type EditorMode = 'texture' | 'file-select';
 
 export interface TextureType {
   name: string;
-  cells: string[][]; 
+  cells: string[][];
+}
+
+export interface CoordinatesType {
+  x: number;
+  y: number;
 }
 
 export interface AnimationType {
   name: string;
-  slides: string[][][];
+  slides: (CoordinatesType | null)[][][];
 }

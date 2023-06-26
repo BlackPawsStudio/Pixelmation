@@ -1,1 +1,1 @@
-export * from './EditorArea';
+export * from './TextureEditorArea';

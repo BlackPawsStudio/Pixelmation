@@ -1,0 +1,53 @@
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.config {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 200px;
+  text-align: center;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.slides {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slide-button {
+  background: none;
+  border: none;
+}
+
+.color {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+}
