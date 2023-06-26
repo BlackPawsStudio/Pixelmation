@@ -8,6 +8,8 @@ import styles from './styles.module.css';
 
 export const AnimationPage = () => {
   const [currentCell, setCurrentCell] = useState<CoordinatesType | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speed, setSpeed] = useState(300);
 
   const currentTexture = drawingStore((state) => state.currentTexture);
   const currentAnimation = drawingStore((state) => state.currentAnimation);
@@ -25,7 +27,9 @@ export const AnimationPage = () => {
 
   const addSlide = () => {
     const temp = currentAnimation.slides.concat();
-    temp.splice(currentSlide + 1, 0,
+    temp.splice(
+      currentSlide + 1,
+      0,
       new Array(currentTexture.cells.length)
         .fill(null)
         .map(() => new Array(currentTexture.cells[0].length).fill(null))
@@ -35,38 +39,59 @@ export const AnimationPage = () => {
       name: currentAnimation.name,
       slides: temp,
     });
+    setCurrentSlide(currentSlide + 1);
   };
 
   const removeSlide = () => {
-    const temp = currentAnimation.slides.concat();
-    
-    temp.splice(currentSlide, 1);
+    const isSure = confirm('Are you sure?');
+    if (isSure) {
+      const temp = currentAnimation.slides.concat();
 
-    setCurrentAnimation({
-      name: currentAnimation.name,
-      slides: temp,
-    });
-  }
+      temp.splice(currentSlide, 1);
 
-  // const exportFile = () => {
-  //   const filename = prompt('Enter texture name');
-  //   if (filename !== null) {
-  //     setCurrentTexture({
-  //       name: filename,
-  //       cells: currentTexture.cells,
-  //     });
-  //     setTimeout(() => {
-  //       currentTexture.name = filename;
-  //       const dataStr =
-  //         'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(currentTexture));
-  //       const downloadAnchorNode = document.createElement('a');
-  //       downloadAnchorNode.setAttribute('href', dataStr);
-  //       downloadAnchorNode.setAttribute('download', filename + '_texture.json');
-  //       downloadAnchorNode.click();
-  //       downloadAnchorNode.remove();
-  //     }, 5);
-  //   }
-  // };
+      setCurrentAnimation({
+        name: currentAnimation.name,
+        slides: temp,
+      });
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
+
+  useEffect(() => {
+    if (isPlaying) {
+      setTimeout(() => {
+        setCurrentSlide(currentSlide + 1 === currentAnimation.slides.length ? 0 : currentSlide + 1);
+      }, speed);
+    }
+  }, [isPlaying, currentSlide]);
+
+  const exportFile = () => {
+    const filename = prompt('Enter animation name');
+    if (filename !== null) {
+      setCurrentAnimation({
+        name: filename,
+        slides: currentAnimation.slides,
+      });
+      setTimeout(() => {
+        const dataStr =
+          'data:text/json;charset=utf-8,' +
+          encodeURIComponent(
+            JSON.stringify({
+              name: filename,
+              slides: currentAnimation.slides,
+              texture: currentTexture,
+            })
+          );
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute('href', dataStr);
+        downloadAnchorNode.setAttribute('download', filename + '_animation.json');
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      }, 5);
+    } else {
+      alert('Incorrect name!');
+    }
+  };
 
   return (
     <div className={styles['container']}>
@@ -82,9 +107,18 @@ export const AnimationPage = () => {
           }}
         />
         <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
-        <button>Save and export</button>
         Selected texture
         <TexturePreview setCurrentCell={setCurrentCell} />
+        Animation speed ({speed}ms)
+        <input
+          type="range"
+          min={50}
+          max={1000}
+          step={50}
+          defaultValue={speed}
+          onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(+e.target.value)}
+        />
+        <button onClick={exportFile}>Save and export</button>
       </div>
       <div className={styles['content']}>
         <div className={styles['slides']}>
@@ -98,7 +132,7 @@ export const AnimationPage = () => {
           >
             {'<'}
           </button>
-          {currentSlide + 1}
+          {currentSlide + 1} / {currentAnimation.slides.length}
           <button
             onClick={() => setCurrentSlide(currentSlide + 1)}
             className={styles['slide-button']}
@@ -114,6 +148,9 @@ export const AnimationPage = () => {
           </button>
           <button onClick={removeSlide} className={styles['slide-button']}>
             Delete current slide
+          </button>
+          <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
+            {isPlaying ? 'Stop' : 'Play'}
           </button>
         </div>
         <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />

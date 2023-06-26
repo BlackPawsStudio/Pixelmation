@@ -2,6 +2,7 @@
   background-color: #777;
   cursor: pointer;
   position: relative;
+  transition: none;
 }
 
 .container > div {

@@ -10,7 +10,16 @@ const App = () => {
   return (
     <main>
       <header>
-        <h1 onClick={() => navigate('/')}>PixelMation</h1>
+        <h1
+          onClick={() => {
+            const isSure = confirm(
+              'You sure you want to go to main page? (this will reset all unsaved progress)'
+            );
+            if (isSure) navigate('/');
+          }}
+        >
+          PixelMation
+        </h1>
       </header>
       <Routes>
         <Route path="/" element={<FieldSelector />} />
