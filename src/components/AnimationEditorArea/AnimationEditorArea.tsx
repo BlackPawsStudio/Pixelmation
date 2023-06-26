@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 
 interface AnimationEditorAreaProps {
   currentCell: CoordinatesType | null;
-  setCurrentCell: ({ x, y }: CoordinatesType) => void;
+  setCurrentCell: (data: CoordinatesType | null) => void;
 }
 
 export const AnimationEditorArea = ({ currentCell, setCurrentCell }: AnimationEditorAreaProps) => {
@@ -35,7 +35,7 @@ export const AnimationEditorArea = ({ currentCell, setCurrentCell }: AnimationEd
   const areaRef = useRef<HTMLDivElement | null>(null);
 
   const copyColor = (x: number, y: number) => {
-    setCurrentCell({ x: x, y: y });
+    setCurrentCell(currentAnimation.slides[currentSlide][x][y]);
   };
 
   useEffect(() => {
