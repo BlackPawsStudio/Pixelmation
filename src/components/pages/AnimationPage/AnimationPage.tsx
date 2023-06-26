@@ -4,6 +4,7 @@ import { AnimationEditorArea } from '~/components/AnimationEditorArea';
 import { TexturePreview } from '~/components/TexturePreview';
 import { drawingStore } from '~/store/store';
 import { CoordinatesType } from '~/types';
+import Hotkeys from 'react-hot-keys';
 import styles from './styles.module.css';
 
 export const AnimationPage = () => {
@@ -16,6 +17,8 @@ export const AnimationPage = () => {
   const setCurrentAnimation = drawingStore((state) => state.setCurrentAnimation);
   const currentSlide = drawingStore((state) => state.currentSlide);
   const setCurrentSlide = drawingStore((state) => state.setCurrentSlide);
+  const bgColor = drawingStore((state) => state.bgColor);
+  const setBgColor = drawingStore((state) => state.setBgColor);
 
   const navigate = useNavigate();
 
@@ -94,67 +97,87 @@ export const AnimationPage = () => {
   };
 
   return (
-    <div className={styles['container']}>
-      <div className={styles['config']}>
-        <div>{currentAnimation.name}</div>
-        Current color
-        <div
-          className={styles['color']}
-          style={{
-            background: currentCell
-              ? currentTexture.cells[currentCell.x][currentCell.y]
-              : 'transparent',
-          }}
-        />
-        <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
-        Selected texture
-        <TexturePreview setCurrentCell={setCurrentCell} />
-        Animation speed ({speed}ms)
-        <input
-          type="range"
-          min={50}
-          max={1000}
-          step={50}
-          defaultValue={speed}
-          onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(+e.target.value)}
-        />
-        <button onClick={exportFile}>Save and export</button>
-      </div>
-      <div className={styles['content']}>
-        <div className={styles['slides']}>
-          <button
-            disabled={currentSlide === 0}
-            onClick={() => setCurrentSlide(currentSlide - 1)}
-            className={styles['slide-button']}
-            style={{
-              fontSize: 'large',
-            }}
-          >
-            {'<'}
-          </button>
-          {currentSlide + 1} / {currentAnimation.slides.length}
-          <button
-            onClick={() => setCurrentSlide(currentSlide + 1)}
-            className={styles['slide-button']}
-            style={{
-              fontSize: 'large',
-            }}
-            disabled={currentSlide + 1 === currentAnimation.slides.length}
-          >
-            {'>'}
-          </button>
-          <button onClick={addSlide} className={styles['slide-button']}>
-            Add next slide
-          </button>
-          <button onClick={removeSlide} className={styles['slide-button']}>
-            Delete current slide
-          </button>
-          <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
-            {isPlaying ? 'Stop' : 'Play'}
-          </button>
+    <Hotkeys
+      keyName="right, d"
+      onKeyDown={() => {
+        if (currentSlide + 1 !== currentAnimation.slides.length) setCurrentSlide(currentSlide + 1);
+      }}
+    >
+      <Hotkeys
+        keyName="left, a"
+        onKeyDown={() => {
+          if (currentSlide !== 0) setCurrentSlide(currentSlide - 1);
+        }}
+      >
+        <div className={styles['container']}>
+          <div className={styles['config']}>
+            <div>{currentAnimation.name}</div>
+            Current color
+            <div
+              className={styles['color']}
+              style={{
+                background: currentCell
+                  ? currentTexture.cells[currentCell.x][currentCell.y]
+                  : 'transparent',
+              }}
+            />
+            <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
+            Background color
+            <input
+              type="color"
+              onBlur={(e: React.ChangeEvent<HTMLInputElement>) => setBgColor(e.target.value)}
+              defaultValue={bgColor}
+            />
+            Selected texture
+            <TexturePreview setCurrentCell={setCurrentCell} />
+            Animation speed ({speed}ms)
+            <input
+              type="range"
+              min={50}
+              max={1000}
+              step={50}
+              defaultValue={speed}
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(+e.target.value)}
+            />
+            <button onClick={exportFile}>Save and export</button>
+          </div>
+          <div className={styles['content']}>
+            <div className={styles['slides']}>
+              <button
+                disabled={currentSlide === 0}
+                onClick={() => setCurrentSlide(currentSlide - 1)}
+                className={styles['slide-button']}
+                style={{
+                  fontSize: 'large',
+                }}
+              >
+                {'<'}
+              </button>
+              {currentSlide + 1} / {currentAnimation.slides.length}
+              <button
+                onClick={() => setCurrentSlide(currentSlide + 1)}
+                className={styles['slide-button']}
+                style={{
+                  fontSize: 'large',
+                }}
+                disabled={currentSlide + 1 === currentAnimation.slides.length}
+              >
+                {'>'}
+              </button>
+              <button onClick={addSlide} className={styles['slide-button']}>
+                Add next slide
+              </button>
+              <button onClick={removeSlide} className={styles['slide-button']}>
+                Delete current slide
+              </button>
+              <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
+                {isPlaying ? 'Stop' : 'Play'}
+              </button>
+            </div>
+            <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
+          </div>
         </div>
-        <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
-      </div>
-    </div>
+      </Hotkeys>
+    </Hotkeys>
   );
 };

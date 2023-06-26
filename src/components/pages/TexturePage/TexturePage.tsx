@@ -10,6 +10,8 @@ export const TexturePage = () => {
   const setCurrentColor = drawingStore((state) => state.setCurrentColor);
   const currentTexture = drawingStore((state) => state.currentTexture);
   const setCurrentTexture = drawingStore((state) => state.setCurrentTexture);
+  const bgColor = drawingStore((state) => state.bgColor);
+  const setBgColor = drawingStore((state) => state.setBgColor);
 
   useEffect(() => {
     if (currentTexture.cells.length === 0) {
@@ -102,6 +104,12 @@ export const TexturePage = () => {
           }}
         />
         <label onClick={() => setCurrentColor('#00000000')}>Set transparent color</label>
+        Background color
+        <input
+          type="color"
+          onBlur={(e: React.ChangeEvent<HTMLInputElement>) => setBgColor(e.target.value)}
+          defaultValue={bgColor}
+        />
         <button onClick={exportFile}>Save and export</button>
       </div>
       <TextureEditorArea />
