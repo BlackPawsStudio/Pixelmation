@@ -1,27 +1,52 @@
-import { useEffect } from 'react';
-import { EditorArea } from '~/components/AnimationEditorArea';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AnimationEditorArea } from '~/components/AnimationEditorArea';
+import { TexturePreview } from '~/components/TexturePreview';
 import { drawingStore } from '~/store/store';
-import { styles } from './styles.module.css';
+import { CoordinatesType } from '~/types';
+import styles from './styles.module.css';
 
 export const AnimationPage = () => {
-  const size = drawingStore((state) => state.size);
+  const [currentCell, setCurrentCell] = useState<CoordinatesType | null>(null);
 
-  const setSize = drawingStore((state) => state.setSize);
-  const setCurrentColor = drawingStore((state) => state.setCurrentColor);
   const currentTexture = drawingStore((state) => state.currentTexture);
-  const setCurrentTexture = drawingStore((state) => state.setCurrentTexture);
+  const currentAnimation = drawingStore((state) => state.currentAnimation);
+  const setCurrentAnimation = drawingStore((state) => state.setCurrentAnimation);
+  const currentSlide = drawingStore((state) => state.currentSlide);
+  const setCurrentSlide = drawingStore((state) => state.setCurrentSlide);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentTexture.cells.length === 0) {
-      const texture = new Array(size.height).fill(0).map(() => {
-        return new Array(size.width).fill('transparent');
-      });
-      setCurrentTexture({
-        name: '',
-        cells: texture,
-      });
+      navigate('/file-select');
     }
-  }, [setCurrentTexture, size, currentTexture]);
+  }, [currentTexture]);
+
+  const addSlide = () => {
+    const temp = currentAnimation.slides.concat();
+    temp.splice(currentSlide + 1, 0,
+      new Array(currentTexture.cells.length)
+        .fill(null)
+        .map(() => new Array(currentTexture.cells[0].length).fill(null))
+    );
+
+    setCurrentAnimation({
+      name: currentAnimation.name,
+      slides: temp,
+    });
+  };
+
+  const removeSlide = () => {
+    const temp = currentAnimation.slides.concat();
+    
+    temp.splice(currentSlide, 1);
+
+    setCurrentAnimation({
+      name: currentAnimation.name,
+      slides: temp,
+    });
+  }
 
   // const exportFile = () => {
   //   const filename = prompt('Enter texture name');
@@ -46,27 +71,53 @@ export const AnimationPage = () => {
   return (
     <div className={styles['container']}>
       <div className={styles['config']}>
-        <div>{currentTexture.name}</div>
-        <button>
-          Load texture
-          <input
-            type="file"
-            id="file"
-            style={{ display: 'none' }}
-          />
-        </button>
-        <input
+        <div>{currentAnimation.name}</div>
+        Current color
+        <div
           className={styles['color']}
-          name="color"
-          type="color"
-          onBlur={(e) => {
-            setCurrentColor(e.target.value);
+          style={{
+            background: currentCell
+              ? currentTexture.cells[currentCell.x][currentCell.y]
+              : 'transparent',
           }}
         />
-        <label onClick={() => setCurrentColor('#00000000')}>Set transparent color</label>
+        <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
         <button>Save and export</button>
+        Selected texture
+        <TexturePreview setCurrentCell={setCurrentCell} />
       </div>
-      <EditorArea />
+      <div className={styles['content']}>
+        <div className={styles['slides']}>
+          <button
+            disabled={currentSlide === 0}
+            onClick={() => setCurrentSlide(currentSlide - 1)}
+            className={styles['slide-button']}
+            style={{
+              fontSize: 'large',
+            }}
+          >
+            {'<'}
+          </button>
+          {currentSlide + 1}
+          <button
+            onClick={() => setCurrentSlide(currentSlide + 1)}
+            className={styles['slide-button']}
+            style={{
+              fontSize: 'large',
+            }}
+            disabled={currentSlide + 1 === currentAnimation.slides.length}
+          >
+            {'>'}
+          </button>
+          <button onClick={addSlide} className={styles['slide-button']}>
+            Add next slide
+          </button>
+          <button onClick={removeSlide} className={styles['slide-button']}>
+            Delete current slide
+          </button>
+        </div>
+        <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
+      </div>
     </div>
   );
 };

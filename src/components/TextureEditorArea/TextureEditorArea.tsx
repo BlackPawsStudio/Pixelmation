@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
 import { drawingStore } from '~/store/store';
-import { EditorMode } from '~/types';
 import { EditorCell } from '../EditorCell';
 import styles from './styles.module.css';
 
-export const EditorArea = () => {
+export const TextureEditorArea = () => {
   const size = drawingStore((state) => state.size);
   const currentColor = drawingStore((state) => state.currentColor);
   const setCurrentColor = drawingStore((state) => state.setCurrentColor);
@@ -15,7 +14,7 @@ export const EditorArea = () => {
 
   const changeCell = (x: number, y: number) => {
     const tempCells = currentTexture.cells.concat();
-    tempCells[x][y] = currentColor;
+    tempCells[x][y] = currentColor;    
     setCurrentTexture({
       name: currentTexture.name,
       cells: tempCells,
