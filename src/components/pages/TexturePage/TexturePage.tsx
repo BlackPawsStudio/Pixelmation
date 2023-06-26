@@ -74,6 +74,8 @@ export const TexturePage = () => {
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
       }, 5);
+    } else {
+      alert('Incorrect name!');
     }
   };
 
