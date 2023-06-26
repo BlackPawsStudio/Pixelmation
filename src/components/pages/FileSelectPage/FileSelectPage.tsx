@@ -70,6 +70,15 @@ export const FileSelectPage = () => {
           reader.onload = (e) => {
             if (e.target && e.target.result) {
               const fileData = JSON.parse(e.target.result as string);
+              setSize({
+                width: fileData.texture.cells[0].length,
+                height: fileData.texture.cells.length,
+              });
+              setCurrentAnimation({
+                name: fileData.name,
+                slides: fileData.slides,
+              });
+              setCurrentTexture(fileData.texture);
               navigate('/animation');
             }
           };

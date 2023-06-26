@@ -3,12 +3,19 @@ import { AnimationPage } from './components/pages/AnimationPage';
 import { FieldSelector } from './components/pages/FieldSelector';
 import { FileSelectPage } from './components/pages/FileSelectPage';
 import { TexturePage } from './components/pages/TexturePage';
+import { drawingStore } from './store/store';
 
 const App = () => {
   const navigate = useNavigate();
 
+  const bgColor = drawingStore((state) => state.bgColor);
+
   return (
-    <main>
+    <main
+      style={{
+        backgroundColor: bgColor,
+      }}
+    >
       <header>
         <h1
           onClick={() => {

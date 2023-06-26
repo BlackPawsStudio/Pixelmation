@@ -1,13 +1,15 @@
 import { create } from 'zustand';
-import { AnimationType, CoordinatesType, EditorMode, SizeType, TextureType } from '../types';
+import { AnimationType, EditorMode, SizeType, TextureType } from '../types';
 
 interface Store {
+  bgColor: string;
   size: SizeType;
   type: EditorMode;
   currentColor: string;
   currentTexture: TextureType;
   currentAnimation: AnimationType;
   currentSlide: number;
+  setBgColor: (data: string) => void;
   setSize: (data: SizeType) => void;
   changeType: () => void;
   setCurrentSlide: (data: number) => void;
@@ -19,6 +21,7 @@ interface Store {
 }
 
 export const drawingStore = create<Store>()((set) => ({
+  bgColor: '#777',
   size: { width: 25, height: 25 },
   type: 'texture',
   currentColor: '#000000',
@@ -31,6 +34,7 @@ export const drawingStore = create<Store>()((set) => ({
     slides: [],
   },
   currentSlide: 0,
+  setBgColor: (data: string) => set(() => ({ bgColor: data })),
   setSize: (data: SizeType) => set(() => ({ size: data })),
   changeType: () =>
     set((state) => ({
