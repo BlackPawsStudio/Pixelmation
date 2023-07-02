@@ -45,9 +45,51 @@ export const AnimationPage = () => {
     setCurrentSlide(currentSlide + 1);
   };
 
+  const copySlide = () => {
+    const temp = currentAnimation.slides.concat();
+    temp.splice(
+      currentSlide + 1,
+      0,
+      new Array(currentTexture.cells.length)
+        .fill(null)
+        .map((_, rowIdx) =>
+          new Array(currentTexture.cells[0].length)
+            .fill(null)
+            .map((_, idx) => currentAnimation.slides[currentSlide][rowIdx][idx])
+        )
+    );
+
+    setCurrentAnimation({
+      name: currentAnimation.name,
+      slides: temp,
+    });
+    setCurrentSlide(currentSlide + 1);
+  };
+
+  const insertTexture = () => {
+    const temp = currentAnimation.slides.concat();
+    temp.splice(
+      currentSlide + 1,
+      0,
+      new Array(currentTexture.cells.length)
+        .fill(null)
+        .map((_, rowIdx) =>
+          new Array(currentTexture.cells[0].length)
+            .fill(null)
+            .map((el, idx) => (el !== 'transparent' ? { x: rowIdx, y: idx } : null))
+        )
+    );
+
+    setCurrentAnimation({
+      name: currentAnimation.name,
+      slides: temp,
+    });
+    setCurrentSlide(currentSlide + 1);
+  };
+
   const removeSlide = () => {
     const isSure = confirm('Are you sure?');
-    if (isSure) {
+    if (isSure && currentAnimation.slides.length > 1) {
       const temp = currentAnimation.slides.concat();
 
       temp.splice(currentSlide, 1);
@@ -56,7 +98,7 @@ export const AnimationPage = () => {
         name: currentAnimation.name,
         slides: temp,
       });
-      setCurrentSlide(currentSlide - 1);
+      if (currentSlide !== 0) setCurrentSlide(currentSlide - 1);
     }
   };
 
@@ -142,13 +184,18 @@ export const AnimationPage = () => {
             <button onClick={exportFile}>Save and export</button>
           </div>
           <div className={styles['content']}>
-            <div className={styles['slides']}>
+            <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
+          </div>
+          <div className={styles['slides']}>
+            <div className={styles['slides-select']}>
               <button
                 disabled={currentSlide === 0}
                 onClick={() => setCurrentSlide(currentSlide - 1)}
                 className={styles['slide-button']}
                 style={{
                   fontSize: 'large',
+                  background: 'none',
+                  border: 'none',
                 }}
               >
                 {'<'}
@@ -159,22 +206,29 @@ export const AnimationPage = () => {
                 className={styles['slide-button']}
                 style={{
                   fontSize: 'large',
+                  background: 'none',
+                  border: 'none',
                 }}
                 disabled={currentSlide + 1 === currentAnimation.slides.length}
               >
                 {'>'}
               </button>
-              <button onClick={addSlide} className={styles['slide-button']}>
-                Add next slide
-              </button>
-              <button onClick={removeSlide} className={styles['slide-button']}>
-                Delete current slide
-              </button>
-              <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
-                {isPlaying ? 'Stop' : 'Play'}
-              </button>
             </div>
-            <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
+            <button onClick={addSlide} className={styles['slide-button']}>
+              Add next slide
+            </button>
+            <button onClick={copySlide} className={styles['slide-button']}>
+              Copy this slide
+            </button>
+            <button onClick={insertTexture} className={styles['slide-button']}>
+              Insert texture as new slide
+            </button>
+            <button onClick={removeSlide} className={styles['slide-button']}>
+              Delete current slide
+            </button>
+            <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? 'Stop' : 'Play'}
+            </button>
           </div>
         </div>
       </Hotkeys>

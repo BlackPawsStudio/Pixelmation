@@ -15,10 +15,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  width: 200px;
+  gap: 10px;
+  max-height: 100vh;
   text-align: center;
+  overflow-y: auto;
 }
 
 .content {
@@ -30,22 +30,30 @@
 
 .slides {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100%);
+  top: 50%;
+  right: 0%;
+  transform: translateY(-50%);
   display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 10px;
   width: 100%;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 }
 
+.slides-select {
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
 .slide-button {
-  background: none;
-  border: none;
+  padding: 5px;
 }
 
 .color {
+  margin: auto;
   display: block;
   width: 100px;
   height: 100px;

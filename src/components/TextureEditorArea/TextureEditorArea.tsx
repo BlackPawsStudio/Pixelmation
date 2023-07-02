@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { drawingStore } from '~/store/store';
 import { EditorCell } from '../EditorCell';
 import styles from './styles.module.css';
@@ -14,7 +14,7 @@ export const TextureEditorArea = () => {
 
   const changeCell = (x: number, y: number) => {
     const tempCells = currentTexture.cells.concat();
-    tempCells[x][y] = currentColor;    
+    tempCells[x][y] = currentColor;
     setCurrentTexture({
       name: currentTexture.name,
       cells: tempCells,
@@ -25,37 +25,36 @@ export const TextureEditorArea = () => {
     setCurrentColor(currentTexture.cells[x][y]);
   };
 
-  const areaRef = useRef<HTMLDivElement | null>(null);
-
   return (
     <>
       <label>
         <input type="checkbox" defaultChecked onChange={() => setIsGridVisible(!isGridVisible)} />{' '}
         Show grid
       </label>
-      <div
-        ref={areaRef}
-        className={styles['content']}
-        style={{
-          gridTemplateColumns: `repeat(${size.width}, auto)`,
-          gridTemplateRows: `repeat(${size.height}, auto)`,
-        }}
-      >
-        {currentTexture.cells.map((row, rowId) => {
-          return row.map((el, id) => {
-            return (
-              <EditorCell
-                key={id}
-                x={rowId}
-                y={id}
-                color={el}
-                isGridVisible={isGridVisible}
-                changeCell={changeCell}
-                copyColor={copyColor}
-              />
-            );
-          });
-        })}
+      <div className={styles['content']}>
+        <div
+          id="contents"
+          style={{
+            gridTemplateColumns: `repeat(${size.width}, auto)`,
+            gridTemplateRows: `repeat(${size.height}, auto)`,
+          }}
+        >
+          {currentTexture.cells.map((row, rowId) => {
+            return row.map((el, id) => {
+              return (
+                <EditorCell
+                  key={id}
+                  x={rowId}
+                  y={id}
+                  color={el}
+                  isGridVisible={isGridVisible}
+                  changeCell={changeCell}
+                  copyColor={copyColor}
+                />
+              );
+            });
+          })}
+        </div>
       </div>
     </>
   );

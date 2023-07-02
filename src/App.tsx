@@ -1,7 +1,9 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Guide } from './components/Guide';
 import { AnimationPage } from './components/pages/AnimationPage';
 import { FieldSelector } from './components/pages/FieldSelector';
 import { FileSelectPage } from './components/pages/FileSelectPage';
+import { NotFoundPage } from './components/pages/NotFoundPage';
 import { TexturePage } from './components/pages/TexturePage';
 import { drawingStore } from './store/store';
 
@@ -10,12 +12,17 @@ const App = () => {
 
   const bgColor = drawingStore((state) => state.bgColor);
 
+  const setIsMouseDown = drawingStore((state) => state.setIsMouseDown);
+
   return (
     <main
+      onMouseDown={() => setIsMouseDown(true)}
+      onMouseUp={() => setIsMouseDown(false)}
       style={{
         backgroundColor: bgColor,
       }}
     >
+      <Guide />
       <header>
         <h1
           onClick={() => {
@@ -29,6 +36,7 @@ const App = () => {
         </h1>
       </header>
       <Routes>
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<FieldSelector />} />
         <Route path="/texture" element={<TexturePage />} />
         <Route path="/file-select" element={<FileSelectPage />} />

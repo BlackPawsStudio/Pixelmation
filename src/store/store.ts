@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { AnimationType, EditorMode, SizeType, TextureType } from '../types';
 
 interface Store {
+  isMouseDown: boolean;
+  setIsMouseDown: (data: boolean) => void;
   bgColor: string;
   size: SizeType;
   type: EditorMode;
@@ -21,6 +23,8 @@ interface Store {
 }
 
 export const drawingStore = create<Store>()((set) => ({
+  isMouseDown: false,
+  setIsMouseDown: (data: boolean) => set(() => ({isMouseDown: data})),
   bgColor: '#777',
   size: { width: 25, height: 25 },
   type: 'texture',

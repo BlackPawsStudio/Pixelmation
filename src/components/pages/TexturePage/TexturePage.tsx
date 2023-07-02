@@ -2,6 +2,7 @@ import { TextureEditorArea } from '~/components/TextureEditorArea';
 import styles from '~/components/TextureEditorArea/styles.module.css';
 import { useRef, useEffect } from 'react';
 import { drawingStore } from '~/store/store';
+import html2canvas from 'html2canvas';
 
 export const TexturePage = () => {
   const size = drawingStore((state) => state.size);
@@ -81,6 +82,28 @@ export const TexturePage = () => {
     }
   };
 
+  const exportAsImage = () => {
+    html2canvas(document.querySelector('#contents') as HTMLElement, {
+      backgroundColor: '#00000000',
+    }).then((canvas) => {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 3; i < image.data.length; i += 4) {
+          image.data[i] = 50;
+        }
+        const img = canvas.toDataURL('image/png');
+        const filename = currentTexture.name || 'export image';
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.download = filename;
+        downloadAnchorNode.href = img;
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      }
+      return canvas;
+    });
+  };
+
   return (
     <div className={styles['container']}>
       <div className={styles['config']}>
@@ -111,6 +134,12 @@ export const TexturePage = () => {
           defaultValue={bgColor}
         />
         <button onClick={exportFile}>Save and export</button>
+        <button onClick={exportAsImage}>
+          Export texture <br />
+          as png <br />
+          (disable grid
+          <br /> before export)
+        </button>
       </div>
       <TextureEditorArea />
     </div>

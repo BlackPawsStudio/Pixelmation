@@ -3,11 +3,15 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  user-select: none;
 }
 
 .content {
-  display: grid;
   border: 1px solid #555;
+}
+
+.content > div{
+  display: grid;
   height: fit-content;
   width: fit-content;
 }
@@ -35,7 +39,7 @@
 }
 
 .mini {
-  position: absolute!important;
+  position: absolute !important;
   top: 50%;
   left: 100%;
   transform: translateX(50%) translateY(-50%);

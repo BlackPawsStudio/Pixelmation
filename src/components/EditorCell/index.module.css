@@ -3,6 +3,7 @@
   cursor: pointer;
   position: relative;
   transition: none;
+  user-select: none;
 }
 
 .container > div {

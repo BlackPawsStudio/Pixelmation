@@ -22,6 +22,7 @@ export const EditorCell = ({
   isSmall,
 }: EditorCellProps) => {
   const size = drawingStore((state) => state.size);
+  const isMouseDown = drawingStore((state) => state.isMouseDown);
 
   const sizeParam = isSmall ? 2 :  75 / size.width > 75 / size.height ? 75 / size.height : 75 / size.width;
   return (
@@ -34,6 +35,7 @@ export const EditorCell = ({
         height: `${sizeParam}vh`,
       }}
       onClick={() => changeCell && changeCell(x, y)}
+      onMouseMove={() => isMouseDown && changeCell && changeCell(x, y)}
       onContextMenu={(e) => {
         e.preventDefault();
         copyColor && copyColor(x, y);
