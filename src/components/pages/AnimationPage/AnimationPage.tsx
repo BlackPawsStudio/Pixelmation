@@ -184,51 +184,51 @@ export const AnimationPage = () => {
             <button onClick={exportFile}>Save and export</button>
           </div>
           <div className={styles['content']}>
-            <div className={styles['slides']}>
-              <div className={styles['slides-select']}>
-                <button
-                  disabled={currentSlide === 0}
-                  onClick={() => setCurrentSlide(currentSlide - 1)}
-                  className={styles['slide-button']}
-                  style={{
-                    fontSize: 'large',
-                    background: 'none',
-                    border: 'none',
-                  }}
-                >
-                  {'<'}
-                </button>
-                {currentSlide + 1} / {currentAnimation.slides.length}
-                <button
-                  onClick={() => setCurrentSlide(currentSlide + 1)}
-                  className={styles['slide-button']}
-                  style={{
-                    fontSize: 'large',
-                    background: 'none',
-                    border: 'none',
-                  }}
-                  disabled={currentSlide + 1 === currentAnimation.slides.length}
-                >
-                  {'>'}
-                </button>
-              </div>
-              <button onClick={addSlide} className={styles['slide-button']}>
-                Add next slide
+            <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
+          </div>
+          <div className={styles['slides']}>
+            <div className={styles['slides-select']}>
+              <button
+                disabled={currentSlide === 0}
+                onClick={() => setCurrentSlide(currentSlide - 1)}
+                className={styles['slide-button']}
+                style={{
+                  fontSize: 'large',
+                  background: 'none',
+                  border: 'none',
+                }}
+              >
+                {'<'}
               </button>
-              <button onClick={copySlide} className={styles['slide-button']}>
-                Copy this slide to the next slide
-              </button>
-              <button onClick={insertTexture} className={styles['slide-button']}>
-                Insert texture as new slide
-              </button>
-              <button onClick={removeSlide} className={styles['slide-button']}>
-                Delete current slide
-              </button>
-              <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
-                {isPlaying ? 'Stop' : 'Play'}
+              {currentSlide + 1} / {currentAnimation.slides.length}
+              <button
+                onClick={() => setCurrentSlide(currentSlide + 1)}
+                className={styles['slide-button']}
+                style={{
+                  fontSize: 'large',
+                  background: 'none',
+                  border: 'none',
+                }}
+                disabled={currentSlide + 1 === currentAnimation.slides.length}
+              >
+                {'>'}
               </button>
             </div>
-            <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
+            <button onClick={addSlide} className={styles['slide-button']}>
+              Add next slide
+            </button>
+            <button onClick={copySlide} className={styles['slide-button']}>
+              Copy this slide
+            </button>
+            <button onClick={insertTexture} className={styles['slide-button']}>
+              Insert texture as new slide
+            </button>
+            <button onClick={removeSlide} className={styles['slide-button']}>
+              Delete current slide
+            </button>
+            <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? 'Stop' : 'Play'}
+            </button>
           </div>
         </div>
       </Hotkeys>

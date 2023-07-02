@@ -1,4 +1,5 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Guide } from './components/Guide';
 import { AnimationPage } from './components/pages/AnimationPage';
 import { FieldSelector } from './components/pages/FieldSelector';
 import { FileSelectPage } from './components/pages/FileSelectPage';
@@ -21,6 +22,7 @@ const App = () => {
         backgroundColor: bgColor,
       }}
     >
+      <Guide />
       <header>
         <h1
           onClick={() => {
