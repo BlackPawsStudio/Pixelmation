@@ -7,16 +7,16 @@ import styles from './styles.module.css';
 interface AnimationEditorAreaProps {
   currentCell: CoordinatesType | null;
   setCurrentCell: (data: CoordinatesType | null) => void;
+  isVisible: boolean;
+  setIsVisible: (b: boolean) => void;
 }
 
-export const AnimationEditorArea = ({ currentCell, setCurrentCell }: AnimationEditorAreaProps) => {
+export const AnimationEditorArea = ({ currentCell, setCurrentCell, isVisible, setIsVisible }: AnimationEditorAreaProps) => {
   const size = drawingStore((state) => state.size);
   const currentSlide = drawingStore((state) => state.currentSlide);
   const currentAnimation = drawingStore((state) => state.currentAnimation);
   const setCurrentAnimation = drawingStore((state) => state.setCurrentAnimation);
   const currentTexture = drawingStore((state) => state.currentTexture);
-
-  const [isGridVisible, setIsGridVisible] = useState(true);
 
   const changeCell = (x: number, y: number) => {
     const temp = currentAnimation.slides.concat();
@@ -45,7 +45,7 @@ export const AnimationEditorArea = ({ currentCell, setCurrentCell }: AnimationEd
   return (
     <>
       <label>
-        <input type="checkbox" defaultChecked onChange={() => setIsGridVisible(!isGridVisible)} />{' '}
+        <input type="checkbox" defaultChecked onChange={() => setIsVisible(!isVisible)} />{' '}
         Show grid
       </label>
       <div
@@ -64,7 +64,7 @@ export const AnimationEditorArea = ({ currentCell, setCurrentCell }: AnimationEd
                 x={rowId}
                 y={id}
                 color={el ? currentTexture.cells[el.x][el.y] : 'transparent'}
-                isGridVisible={isGridVisible}
+                isGridVisible={isVisible}
                 changeCell={changeCell}
                 copyColor={copyColor}
               />

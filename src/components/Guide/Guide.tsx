@@ -91,6 +91,9 @@ const guideText = [
         <h4 className={styles['important']}>
           You can switch between slides using LEFT and RIGHT arrow keys or with A D.
         </h4>
+        <h4 className={styles['important']}>
+          You can hide grid with pressing G.
+        </h4>
         <h4>
           You can add slides, copy current slide, insert texture as a slide and delete current
           slide.

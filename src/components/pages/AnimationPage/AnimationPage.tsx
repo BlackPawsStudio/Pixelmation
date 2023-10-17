@@ -12,6 +12,8 @@ export const AnimationPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(300);
 
+  const [isGridVisible, setIsGridVisible] = useState(true);
+
   const currentTexture = drawingStore((state) => state.currentTexture);
   const currentAnimation = drawingStore((state) => state.currentAnimation);
   const setCurrentAnimation = drawingStore((state) => state.setCurrentAnimation);
@@ -151,86 +153,98 @@ export const AnimationPage = () => {
           if (currentSlide !== 0) setCurrentSlide(currentSlide - 1);
         }}
       >
-        <div className={styles['container']}>
-          <div className={styles['config']}>
-            <div>{currentAnimation.name}</div>
-            Current color
-            <div
-              className={styles['color']}
-              style={{
-                background: currentCell
-                  ? currentTexture.cells[currentCell.x][currentCell.y]
-                  : 'transparent',
-              }}
-            />
-            <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
-            Background color
-            <input
-              type="color"
-              onBlur={(e: React.ChangeEvent<HTMLInputElement>) => setBgColor(e.target.value)}
-              defaultValue={bgColor}
-            />
-            Selected texture
-            <TexturePreview setCurrentCell={setCurrentCell} />
-            Animation speed ({speed}ms)
-            <input
-              type="range"
-              min={50}
-              max={1000}
-              step={50}
-              defaultValue={speed}
-              onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(+e.target.value)}
-            />
-            <button onClick={exportFile}>Save and export</button>
-          </div>
-          <div className={styles['content']}>
-            <AnimationEditorArea currentCell={currentCell} setCurrentCell={setCurrentCell} />
-          </div>
-          <div className={styles['slides']}>
-            <div className={styles['slides-select']}>
-              <button
-                disabled={currentSlide === 0}
-                onClick={() => setCurrentSlide(currentSlide - 1)}
-                className={styles['slide-button']}
+        <Hotkeys
+          keyName="g"
+          onKeyDown={() => {
+            setIsGridVisible(!isGridVisible);
+          }}
+        >
+          <div className={styles['container']}>
+            <div className={styles['config']}>
+              <div>{currentAnimation.name}</div>
+              Current color
+              <div
+                className={styles['color']}
                 style={{
-                  fontSize: 'large',
-                  background: 'none',
-                  border: 'none',
+                  background: currentCell
+                    ? currentTexture.cells[currentCell.x][currentCell.y]
+                    : 'transparent',
                 }}
-              >
-                {'<'}
+              />
+              <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
+              Background color
+              <input
+                type="color"
+                onBlur={(e: React.ChangeEvent<HTMLInputElement>) => setBgColor(e.target.value)}
+                defaultValue={bgColor}
+              />
+              Selected texture
+              <TexturePreview setCurrentCell={setCurrentCell} isVisible={isGridVisible} />
+              Animation speed ({speed}ms)
+              <input
+                type="range"
+                min={50}
+                max={1000}
+                step={50}
+                defaultValue={speed}
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(+e.target.value)}
+              />
+              <button onClick={exportFile}>Save and export</button>
+            </div>
+            <div className={styles['content']}>
+              <AnimationEditorArea
+                currentCell={currentCell}
+                setCurrentCell={setCurrentCell}
+                isVisible={isGridVisible}
+                setIsVisible={setIsGridVisible}
+              />
+            </div>
+            <div className={styles['slides']}>
+              <div className={styles['slides-select']}>
+                <button
+                  disabled={currentSlide === 0}
+                  onClick={() => setCurrentSlide(currentSlide - 1)}
+                  className={styles['slide-button']}
+                  style={{
+                    fontSize: 'large',
+                    background: 'none',
+                    border: 'none',
+                  }}
+                >
+                  {'<'}
+                </button>
+                {currentSlide + 1} / {currentAnimation.slides.length}
+                <button
+                  onClick={() => setCurrentSlide(currentSlide + 1)}
+                  className={styles['slide-button']}
+                  style={{
+                    fontSize: 'large',
+                    background: 'none',
+                    border: 'none',
+                  }}
+                  disabled={currentSlide + 1 === currentAnimation.slides.length}
+                >
+                  {'>'}
+                </button>
+              </div>
+              <button onClick={addSlide} className={styles['slide-button']}>
+                Add next slide
               </button>
-              {currentSlide + 1} / {currentAnimation.slides.length}
-              <button
-                onClick={() => setCurrentSlide(currentSlide + 1)}
-                className={styles['slide-button']}
-                style={{
-                  fontSize: 'large',
-                  background: 'none',
-                  border: 'none',
-                }}
-                disabled={currentSlide + 1 === currentAnimation.slides.length}
-              >
-                {'>'}
+              <button onClick={copySlide} className={styles['slide-button']}>
+                Copy this slide
+              </button>
+              <button onClick={insertTexture} className={styles['slide-button']}>
+                Insert texture as new slide
+              </button>
+              <button onClick={removeSlide} className={styles['slide-button']}>
+                Delete current slide
+              </button>
+              <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
+                {isPlaying ? 'Stop' : 'Play'}
               </button>
             </div>
-            <button onClick={addSlide} className={styles['slide-button']}>
-              Add next slide
-            </button>
-            <button onClick={copySlide} className={styles['slide-button']}>
-              Copy this slide
-            </button>
-            <button onClick={insertTexture} className={styles['slide-button']}>
-              Insert texture as new slide
-            </button>
-            <button onClick={removeSlide} className={styles['slide-button']}>
-              Delete current slide
-            </button>
-            <button className={styles['slide-button']} onClick={() => setIsPlaying(!isPlaying)}>
-              {isPlaying ? 'Stop' : 'Play'}
-            </button>
           </div>
-        </div>
+        </Hotkeys>
       </Hotkeys>
     </Hotkeys>
   );
