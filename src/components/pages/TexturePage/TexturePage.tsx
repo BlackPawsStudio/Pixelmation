@@ -61,7 +61,7 @@ export const TexturePage = () => {
   };
 
   const exportFile = () => {
-    const filename = prompt('Enter texture name');
+    const filename = prompt('Enter texture name', currentTexture.name);
     if (filename !== null) {
       setCurrentTexture({
         name: filename,

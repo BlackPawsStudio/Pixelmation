@@ -111,7 +111,7 @@ export const AnimationPage = () => {
   }, [isPlaying, currentSlide]);
 
   const exportFile = () => {
-    const filename = prompt('Enter animation name');
+    const filename = prompt('Enter animation name', currentAnimation.name);
     if (filename !== null) {
       setCurrentAnimation({
         name: filename,
