@@ -34,7 +34,7 @@ export const EditorCell = ({
         width: `${sizeParam}vh`,
         height: `${sizeParam}vh`,
       }}
-      onClick={() => changeCell && changeCell(x, y)}
+      onClick={() => (changeCell ? changeCell(x, y) : copyColor && copyColor(x, y))}
       onMouseMove={() => isMouseDown && changeCell && changeCell(x, y)}
       onContextMenu={(e) => {
         e.preventDefault();

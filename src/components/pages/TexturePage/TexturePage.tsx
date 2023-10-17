@@ -6,8 +6,8 @@ import html2canvas from 'html2canvas';
 
 export const TexturePage = () => {
   const size = drawingStore((state) => state.size);
-
   const setSize = drawingStore((state) => state.setSize);
+  const currentColor = drawingStore((state) => state.currentColor);
   const setCurrentColor = drawingStore((state) => state.setCurrentColor);
   const currentTexture = drawingStore((state) => state.currentTexture);
   const setCurrentTexture = drawingStore((state) => state.setCurrentTexture);
@@ -122,6 +122,8 @@ export const TexturePage = () => {
           className={styles['color']}
           name="color"
           type="color"
+          value={currentColor}
+          onChange={() => {}}
           onBlur={(e) => {
             setCurrentColor(e.target.value);
           }}
