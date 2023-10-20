@@ -70,16 +70,13 @@ export const AnimationPage = () => {
 
   const insertTexture = () => {
     const temp = currentAnimation.slides.concat();
+    const texture = currentTexture.cells.concat();
     temp.splice(
       currentSlide + 1,
       0,
-      new Array(currentTexture.cells.length)
-        .fill(null)
-        .map((_, rowIdx) =>
-          new Array(currentTexture.cells[0].length)
-            .fill(null)
-            .map((el, idx) => (el !== 'transparent' ? { x: rowIdx, y: idx } : null))
-        )
+      texture.map((row, rowIdx) =>
+        row.map((el, idx) => (el !== 'transparent' && el !== null ? { x: rowIdx, y: idx } : null))
+      )
     );
 
     setCurrentAnimation({

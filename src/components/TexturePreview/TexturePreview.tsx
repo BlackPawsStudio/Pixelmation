@@ -4,7 +4,7 @@ import { CoordinatesType } from '~/types';
 import { EditorCell } from '../EditorCell';
 
 interface TexturePreviewProps {
-  setCurrentCell: ({ x, y }: CoordinatesType) => void;
+  setCurrentCell: (data: CoordinatesType | null) => void;
   isVisible: boolean;
 }
 
@@ -13,7 +13,13 @@ export const TexturePreview = ({ setCurrentCell, isVisible }: TexturePreviewProp
   const currentTexture = drawingStore((state) => state.currentTexture);
 
   const copyColor = (x: number, y: number) => {
-    setCurrentCell({ x: x, y: y });
+    if (
+      currentTexture.cells[x][y]
+    ) {
+      setCurrentCell({ x: x, y: y });
+    } else {
+      setCurrentCell(null)
+    }
   };
 
   return (
@@ -27,7 +33,15 @@ export const TexturePreview = ({ setCurrentCell, isVisible }: TexturePreviewProp
       {currentTexture.cells.map((row, rowId) => {
         return row.map((el, id) => {
           return (
-            <EditorCell isSmall key={id} x={rowId} y={id} color={el} isGridVisible={isVisible} copyColor={copyColor} />
+            <EditorCell
+              isSmall
+              key={id}
+              x={rowId}
+              y={id}
+              color={el}
+              isGridVisible={isVisible}
+              copyColor={copyColor}
+            />
           );
         });
       })}
