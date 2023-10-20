@@ -77,7 +77,7 @@ export const TexturePage = () => {
           encodeURIComponent(
             JSON.stringify({
               name: currentTexture.name,
-              texture: texture,
+              cells: texture,
             })
           );
         const downloadAnchorNode = document.createElement('a');
