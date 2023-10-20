@@ -1,5 +1,4 @@
 import { drawingStore } from '~/store/store';
-import { EditorMode } from '~/types';
 import styles from './index.module.css';
 
 interface EditorCellProps {
@@ -24,13 +23,17 @@ export const EditorCell = ({
   const size = drawingStore((state) => state.size);
   const isMouseDown = drawingStore((state) => state.isMouseDown);
 
-  const sizeParam = isSmall ? 2 :  75 / size.width > 75 / size.height ? 75 / size.height : 75 / size.width;
+  const sizeParam = isSmall
+    ? 2
+    : 75 / size.width > 75 / size.height
+    ? 75 / size.height
+    : 75 / size.width;
   return (
     <div
       className={styles['container']}
       style={{
         border: `${isGridVisible ? '0.5px solid #555' : 'none'}`,
-        background: color,
+        background: color === null ? 'transparent' : color,
         width: `${sizeParam}vh`,
         height: `${sizeParam}vh`,
       }}

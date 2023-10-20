@@ -69,8 +69,17 @@ export const TexturePage = () => {
       });
       setTimeout(() => {
         currentTexture.name = filename;
+        const texture = currentTexture.cells.map((row) =>
+          row.map((el) => (el === 'transparent' ? null : el))
+        );
         const dataStr =
-          'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(currentTexture));
+          'data:text/json;charset=utf-8,' +
+          encodeURIComponent(
+            JSON.stringify({
+              name: currentTexture.name,
+              texture: texture,
+            })
+          );
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href', dataStr);
         downloadAnchorNode.setAttribute('download', filename + '_texture.json');
