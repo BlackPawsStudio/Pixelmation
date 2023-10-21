@@ -142,12 +142,18 @@ export const AnimationPage = () => {
       keyName="right, d"
       onKeyDown={() => {
         if (currentSlide + 1 !== currentAnimation.slides.length) setCurrentSlide(currentSlide + 1);
+        else {
+          setCurrentSlide(0);
+        }
       }}
     >
       <Hotkeys
         keyName="left, a"
         onKeyDown={() => {
           if (currentSlide !== 0) setCurrentSlide(currentSlide - 1);
+          else {
+            setCurrentSlide(currentAnimation.slides.length - 1);
+          }
         }}
       >
         <Hotkeys
@@ -199,8 +205,12 @@ export const AnimationPage = () => {
             <div className={styles['slides']}>
               <div className={styles['slides-select']}>
                 <button
-                  disabled={currentSlide === 0}
-                  onClick={() => setCurrentSlide(currentSlide - 1)}
+                  onClick={() => {
+                    if (currentSlide !== 0) setCurrentSlide(currentSlide - 1);
+                    else {
+                      setCurrentSlide(currentAnimation.slides.length - 1);
+                    }
+                  }}
                   className={styles['slide-button']}
                   style={{
                     fontSize: 'large',
@@ -212,14 +222,19 @@ export const AnimationPage = () => {
                 </button>
                 {currentSlide + 1} / {currentAnimation.slides.length}
                 <button
-                  onClick={() => setCurrentSlide(currentSlide + 1)}
+                  onClick={() => {
+                    if (currentSlide + 1 !== currentAnimation.slides.length)
+                      setCurrentSlide(currentSlide + 1);
+                    else {
+                      setCurrentSlide(0);
+                    }
+                  }}
                   className={styles['slide-button']}
                   style={{
                     fontSize: 'large',
                     background: 'none',
                     border: 'none',
                   }}
-                  disabled={currentSlide + 1 === currentAnimation.slides.length}
                 >
                   {'>'}
                 </button>
