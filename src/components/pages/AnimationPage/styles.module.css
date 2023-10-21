@@ -2,15 +2,18 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 90%;
+  width: 100%;
   transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 5vw;
 }
 
 .config {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
+  /* position: absolute; */
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  /* left: 0; */
   width: fit-content;
   display: flex;
   flex-direction: column;
@@ -19,27 +22,29 @@
   max-height: 100vh;
   text-align: center;
   overflow-y: auto;
+  padding: 15px
 }
 
 .content {
-  position: absolute;
-  top: 50%;
+  /* padding-top: 50%;
+  padding-bottom: 50%; */
+  /* position: absolute; */
+  /* top: 50%;
   left: 50%;
-  transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%); */
 }
 
 .slides {
-  position: absolute;
-  top: 50%;
+  /* position: absolute; */
+  /* top: 50%;
   right: 0%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 10px;
   width: fit-content;
   align-items: flex-end;
-  justify-content: space-between;
 }
 
 .slides-select {
@@ -55,7 +60,28 @@
 .color {
   margin: auto;
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  min-height: 25px;
   border: 1px solid #000;
+}
+
+.bg-setup{
+  margin: auto;
+  width: 100%;
+  min-height: 25px;
+}
+
+.config::-webkit-slider-runnable-track {
+  height: 5px;
+  background-color: #aaa;
+}
+
+.config::-webkit-slider-thumb {
+  transition: all .3s;
+  -webkit-appearance: none;
+  transform: translateY(-7px);
+  width: 10px;
+  height: 20px;
+  background-color: #444;
+  border: 3px solid #aaa
 }

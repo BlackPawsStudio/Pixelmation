@@ -175,11 +175,12 @@ export const AnimationPage = () => {
                 }}
               />
               <button onClick={() => setCurrentCell(null)}>Click to set to empty</button>
-              Background color
+              Change background color
               <input
                 type="color"
                 onBlur={(e: React.ChangeEvent<HTMLInputElement>) => setBgColor(e.target.value)}
                 defaultValue={bgColor}
+                className={styles['bg-setup']}
               />
               Selected texture
               <TexturePreview setCurrentCell={setCurrentCell} isVisible={isGridVisible} />
