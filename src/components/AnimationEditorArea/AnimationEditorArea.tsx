@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { drawingStore } from '~/store/store';
 import { CoordinatesType } from '~/types';
 import { EditorCell } from '../EditorCell';
@@ -11,7 +11,12 @@ interface AnimationEditorAreaProps {
   setIsVisible: (b: boolean) => void;
 }
 
-export const AnimationEditorArea = ({ currentCell, setCurrentCell, isVisible, setIsVisible }: AnimationEditorAreaProps) => {
+export const AnimationEditorArea = ({
+  currentCell,
+  setCurrentCell,
+  isVisible,
+  setIsVisible,
+}: AnimationEditorAreaProps) => {
   const size = drawingStore((state) => state.size);
   const currentSlide = drawingStore((state) => state.currentSlide);
   const currentAnimation = drawingStore((state) => state.currentAnimation);
@@ -45,8 +50,8 @@ export const AnimationEditorArea = ({ currentCell, setCurrentCell, isVisible, se
   return (
     <>
       <label>
-        <input type="checkbox" defaultChecked onChange={() => setIsVisible(!isVisible)} />{' '}
-        Show grid
+        <input type="checkbox" checked={isVisible} onChange={() => setIsVisible(!isVisible)} /> Show
+        grid
       </label>
       <div
         ref={areaRef}

@@ -38,7 +38,7 @@ export const TexturePage = () => {
     if (e.target.files && e.target.files.length === 1) {
       if (e.target.files[0]) {
         const file = e.target.files[0];
-        if (file.type === 'application/json') {
+        if (file.name.includes('.pxlmt')) {
           const reader = new FileReader();
           reader.onload = (e) => {
             if (e.target && e.target.result) {
@@ -52,7 +52,7 @@ export const TexturePage = () => {
           };
           reader.readAsText(file);
         } else {
-          alert('File selected incorrectly');
+          alert('Incorrect file type');
         }
       }
     } else {
@@ -82,7 +82,7 @@ export const TexturePage = () => {
           );
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href', dataStr);
-        downloadAnchorNode.setAttribute('download', filename + '_texture.json');
+        downloadAnchorNode.setAttribute('download', filename + '.pxlmt');
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
       }, 5);

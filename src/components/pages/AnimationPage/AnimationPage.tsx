@@ -128,7 +128,7 @@ export const AnimationPage = () => {
           );
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href', dataStr);
-        downloadAnchorNode.setAttribute('download', filename + '_animation.json');
+        downloadAnchorNode.setAttribute('download', filename + '.pxlma');
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
       }, 5);

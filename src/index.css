@@ -43,7 +43,7 @@ label:active, button:active {
 }
 
 header {
-  width: 100%;
+  width: fit-content;
   height: 100px;
   position: fixed;
   top: 0;
@@ -51,6 +51,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 }
 
 *::-webkit-scrollbar {

@@ -30,7 +30,7 @@ export const FileSelectPage = () => {
     if (e.target.files && e.target.files.length === 1) {
       if (e.target.files[0]) {
         const file = e.target.files[0];
-        if (file.type === 'application/json') {
+        if (file.name.includes('.pxlmt')) {
           const reader = new FileReader();
           reader.onload = (e) => {
             if (e.target && e.target.result) {
@@ -53,7 +53,7 @@ export const FileSelectPage = () => {
           };
           reader.readAsText(file);
         } else {
-          alert('File selected incorrectly');
+          alert('Incorrect file type');
         }
       }
     } else {
@@ -65,7 +65,7 @@ export const FileSelectPage = () => {
     if (e.target.files && e.target.files.length === 1) {
       if (e.target.files[0]) {
         const file = e.target.files[0];
-        if (file.type === 'application/json') {
+        if (file.name.includes('.pxlma')) {
           const reader = new FileReader();
           reader.onload = (e) => {
             if (e.target && e.target.result) {
@@ -84,7 +84,7 @@ export const FileSelectPage = () => {
           };
           reader.readAsText(file);
         } else {
-          alert('File selected incorrectly');
+          alert('Incorrect file type');
         }
       }
     } else {
