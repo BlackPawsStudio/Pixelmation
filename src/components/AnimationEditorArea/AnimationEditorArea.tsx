@@ -60,6 +60,7 @@ export const AnimationEditorArea = ({
           gridTemplateColumns: `repeat(${size.width}, auto)`,
           gridTemplateRows: `repeat(${size.height}, auto)`,
         }}
+        id={'animation-contents'}
       >
         {currentAnimation.slides.length &&
           currentAnimation.slides[currentSlide].map((row, rowId) =>

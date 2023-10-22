@@ -6,6 +6,7 @@ import { drawingStore } from '~/store/store';
 import { CoordinatesType } from '~/types';
 import Hotkeys from 'react-hot-keys';
 import styles from './styles.module.css';
+import html2canvas from 'html2canvas';
 
 export const AnimationPage = () => {
   const [currentCell, setCurrentCell] = useState<CoordinatesType | null>(null);
@@ -137,6 +138,28 @@ export const AnimationPage = () => {
     }
   };
 
+  const exportSlideAsImage = () => {
+    html2canvas(document.querySelector('#animation-contents') as HTMLElement, {
+      backgroundColor: '#00000000',
+    }).then((canvas) => {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 3; i < image.data.length; i += 4) {
+          image.data[i] = 50;
+        }
+        const img = canvas.toDataURL('image/png');
+        const filename = `${currentAnimation.name}_slide_${currentSlide + 1}` || 'export image';
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.download = filename;
+        downloadAnchorNode.href = img;
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      }
+      return canvas;
+    });
+  };
+
   return (
     <Hotkeys
       keyName="right, d"
@@ -194,6 +217,7 @@ export const AnimationPage = () => {
                 onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSpeed(+e.target.value)}
               />
               <button onClick={exportFile}>Save and export</button>
+              <button onClick={exportSlideAsImage}>Export current slide as png</button>
             </div>
             <div className={styles['content']}>
               <AnimationEditorArea
