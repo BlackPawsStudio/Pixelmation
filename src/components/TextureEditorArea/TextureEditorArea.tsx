@@ -3,7 +3,11 @@ import { drawingStore } from '~/store/store';
 import { EditorCell } from '../EditorCell';
 import styles from './styles.module.css';
 
-export const TextureEditorArea = () => {
+interface TextureEditorAreaProps {
+  changeInput: (x: number, y: number) => void;
+}
+
+export const TextureEditorArea = ({ changeInput }: TextureEditorAreaProps) => {
   const size = drawingStore((state) => state.size);
   const currentColor = drawingStore((state) => state.currentColor);
   const setCurrentColor = drawingStore((state) => state.setCurrentColor);
@@ -49,7 +53,10 @@ export const TextureEditorArea = () => {
                   color={el}
                   isGridVisible={isGridVisible}
                   changeCell={changeCell}
-                  copyColor={copyColor}
+                  copyColor={(x, y) => {
+                    copyColor(x, y);
+                    changeInput(x, y);
+                  }}
                 />
               );
             });

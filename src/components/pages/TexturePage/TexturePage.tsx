@@ -113,6 +113,8 @@ export const TexturePage = () => {
     });
   };
 
+  const colorChangerRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className={styles['container']}>
       <div className={styles['config']}>
@@ -131,11 +133,11 @@ export const TexturePage = () => {
           className={styles['color']}
           name="color"
           type="color"
-          value={currentColor}
-          onChange={() => {}}
+          defaultValue={currentColor}
           onBlur={(e) => {
             setCurrentColor(e.target.value);
           }}
+          ref={colorChangerRef}
         />
         <label onClick={() => setCurrentColor('#00000000')}>Set transparent color</label>
         Background color
@@ -152,7 +154,11 @@ export const TexturePage = () => {
           <br /> before export)
         </button>
       </div>
-      <TextureEditorArea />
+      <TextureEditorArea
+        changeInput={(x: number, y: number) =>
+          colorChangerRef.current && (colorChangerRef.current.value = currentTexture.cells[x][y])
+        }
+      />
     </div>
   );
 };
